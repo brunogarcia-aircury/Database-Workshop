@@ -1,0 +1,21 @@
+version: '3'
+services:
+    db:
+        image: postgres:latest
+        container_name: "${CONTAINER_NAME}"
+        environment:
+            POSTGRES_USER: "${DB_USER}"
+            POSTGRES_PASSWORD: "${DB_PASSWORD}"
+            POSTGRES_DB: "${DB}"
+        ports:
+            - "${PORT}:5432"
+        volumes:
+            - ./.config/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+        networks:
+            - default
+
+networks:
+    default:
+        ipam:
+            config:
+                - subnet: "${SUBNET}"
