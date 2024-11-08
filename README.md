@@ -39,3 +39,6 @@ The command also accepts [extra options](https://docs.docker.com/reference/cli/d
 
 ### 3. Connect to the database
 Run `make connect` to make a connection with the database and run custom queries.
+
+### 4. Connect to Database Expertise Console
+Run `make console` to open a console to navigate, run and test the exercises.

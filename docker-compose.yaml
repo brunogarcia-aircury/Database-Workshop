@@ -1,5 +1,18 @@
 version: '3'
 services:
+    console:
+        build:
+            context: .config/docker/console
+        container_name: "${CONTAINER_NAME}-console"
+        depends_on:
+            - db
+        volumes:
+            - .:/app
+        working_dir: /app
+        networks:
+            - default
+        tty: true
+
     db:
         image: postgres:latest
         container_name: "${CONTAINER_NAME}"

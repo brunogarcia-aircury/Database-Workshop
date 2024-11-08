@@ -1,3 +1,13 @@
+#Load environment variables
+include .env
+export $(shell sed 's/=.*//' .env)
+
+# Optionally load .env.local if it exists
+ifneq ("$(wildcard .env.local)","")
+  include .env.local
+  export $(shell sed 's/=.*//' .env.local)
+endif
+
 .PHONY:
 
 docker=docker compose
@@ -12,6 +22,10 @@ up:
 connect:
 	make up
 	@.config/docker/connect.sh
+
+console:
+	make up
+	docker exec -it "$$CONTAINER_NAME-console" python .config/docker/console/console.py
 
 down:
 	$(eval args := $(filter-out $@,$(MAKECMDGOALS)))
