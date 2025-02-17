@@ -11,5 +11,8 @@ CONTAINER_NAME=$(echo "${ENV_ARGS}" | tr ' ' '\n' | awk -F= '/^CONTAINER_NAME=/ 
 DB_USER=$(echo "${ENV_ARGS}" | tr ' ' '\n' | awk -F= '/^DB_USER=/ {print $2}')
 DB=$(echo "${ENV_ARGS}" | tr ' ' '\n' | awk -F= '/^DB=/ {print $2}')
 
-
-docker exec -it ${CONTAINER_NAME} psql -U ${DB_USER} -d ${DB}
+if [ $# -eq 0 ]; then
+  docker exec -it ${CONTAINER_NAME} psql -U ${DB_USER} -d ${DB}
+else
+  docker exec -it ${CONTAINER_NAME} psql -U ${DB_USER} -d ${DB} -f "$@"
+fi

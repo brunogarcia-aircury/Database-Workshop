@@ -1,5 +1,18 @@
 version: '3'
 services:
+    python-env:
+        build:
+            context: .config/docker/python
+        container_name: "${CONTAINER_NAME}-python-env"
+        depends_on:
+            - db
+        volumes:
+            - .:/app
+        working_dir: /app
+        networks:
+            - default
+        tty: true
+
     db:
         image: postgres:latest
         container_name: "${CONTAINER_NAME}"
@@ -10,6 +23,7 @@ services:
         ports:
             - "${PORT}:5432"
         volumes:
+            - .config/temp:/imports
             - ./.config/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
         networks:
             - default
