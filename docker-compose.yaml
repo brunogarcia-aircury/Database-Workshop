@@ -14,7 +14,8 @@ services:
         tty: true
 
     db:
-        image: postgres:latest
+        build:
+            context: .config/docker/psql
         container_name: "${CONTAINER_NAME}"
         environment:
             POSTGRES_USER: "${DB_USER}"
@@ -24,7 +25,7 @@ services:
             - "${PORT}:5432"
         volumes:
             - .config/temp:/imports
-            - ./.config/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./.config/docker/psql/init.sql:/docker-entrypoint-initdb.d/init.sql
         networks:
             - default
 
