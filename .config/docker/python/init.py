@@ -6,7 +6,8 @@ import zipfile
 import psycopg2
 from dotenv import load_dotenv
 import time
-
+import requests
+import re
 
 class colors:
     HEADER = '\033[95m'
@@ -36,6 +37,25 @@ print(colors.HEADER + "\nInitializing the database" + colors.ENDC)
 print("-------------------------\n" + colors.ENDC)
 
 print(colors.WARNING + "Downloading..." + colors.ENDC)
+output_path = base_download_folder + 'sql/'
+os.makedirs(output_path, exist_ok=True)
+
+response = requests.get('https://raw.githubusercontent.com/hettie-d/postgres_air/main/tables/custom_field.sql')
+if response.status_code == 200:
+    with open(output_path + 'custom_field.sql', "w", encoding="utf-8") as file:
+        file.write(response.text)
+else:
+    print("Error when downloading file", response.status_code)
+
+with open(output_path + 'custom_field.sql', "r", encoding="utf-8") as file:
+    content = file.read()
+
+content = content.replace("from passenger", "from postgres_air.passenger")
+content = re.sub(r"\bcustom_field\b", "postgres_air.custom_field", content)
+
+
+with open(output_path + 'custom_field.sql', "w", encoding="utf-8") as file:
+    file.write(content)
 for Bundle,subfolder,files in DOWNLOAD_LIST:
     print("Bundle: ", colors.OKCYAN + Bundle + colors.ENDC)
     download_folder=base_download_folder+subfolder+"/"
