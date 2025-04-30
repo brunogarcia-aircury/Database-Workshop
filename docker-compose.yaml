@@ -26,6 +26,7 @@ services:
         volumes:
             - .config/temp:/imports
             - ./.config/docker/psql/init.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./.config/docker/psql/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
         networks:
             - default
 
