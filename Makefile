@@ -18,9 +18,16 @@ psql:
 	@.config/docker/run.sh $(args)
 
 init:
+	make down
+	make up
+	make build
 	docker exec "workshop-db-python-env" python .config/docker/python/init.py
 	make psql "/imports/unzip/airport/zip/postgres_air_2024.sql/postgres_air_2024.sql"
 	make psql "/imports/sql/custom_field.sql"
+
+stop:
+	$(eval args := $(filter-out $@,$(MAKECMDGOALS)))
+	[ -f ".env.local" ] && $(docker) $(ENV_ARGS) stop $(args) || $(docker) stop $(args)
 
 down:
 	$(eval args := $(filter-out $@,$(MAKECMDGOALS)))

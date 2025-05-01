@@ -33,16 +33,17 @@ You also can check existing docker network using
 
 </details>
 
-### 2. Start docker containers
+### 2. Set everything up
 
-Use `make up` to start all containers.
+Use `make init` to start all containers.
 
 The command also accepts [extra options](https://docs.docker.com/reference/cli/docker/compose/up/#options).
 
-### 3. Initialize the database
+### 3. If you want to start/stop/remove your containers
 
-Run `make init` to set up the database, creating necessary tables and loading initial data.</br>
-Finally run `make clean` to remove temporal data.
+Run `make up` to start your containers.</br>
+Run `make stop` to stop your containers.</br>
+Run `make down` to stop and remove your containers.</br>
 
 ### 4. Setup the database connection in your prefered IDE or database manager.
 
