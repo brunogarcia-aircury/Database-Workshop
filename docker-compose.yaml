@@ -21,12 +21,13 @@ services:
             POSTGRES_USER: "${DB_USER}"
             POSTGRES_PASSWORD: "${DB_PASSWORD}"
             POSTGRES_DB: "${DB}"
+            PGDATA: /var/lib/postgresql/data/pgdata
         ports:
             - "${PORT}:5432"
         volumes:
             - .config/temp:/imports
             - ./.config/docker/psql/init.sql:/docker-entrypoint-initdb.d/init.sql
-            - ./.config/docker/psql/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+            - ./.config/docker/psql/postgresql.conf:/etc/postgresql/postgresql.conf
         networks:
             - default
 
