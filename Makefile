@@ -18,7 +18,7 @@ psql:
 	@.config/docker/run.sh $(args)
 
 init:
-	make down
+	make stop
 	make up
 	make build
 	docker exec "workshop-db-python-env" python .config/docker/python/init.py
